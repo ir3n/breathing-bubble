@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# npm pack output (the .tgz files for testing locally before publishing)
+*.tgz
+
+# npm failure logs
+npm-debug.log*
+
+# Playground has its own node_modules and build output
+playground/node_modules/
+playground/dist/
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# TypeScript incremental build info
+*.tsbuildinfo

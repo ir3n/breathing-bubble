@@ -1,0 +1,60 @@
+{
+  "name": "@ir3n/react-breathing-bubble",
+  "version": "1.0.0",
+  "description": "Animated breathing bubble/orb React component for guided breathing exercises with customizable inhale/hold/exhale timing, for meditation and mindfulness apps.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./styles.css": "./dist/index.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react",
+    "react-component",
+    "breathing",
+    "breathing-exercise",
+    "breathing-bubble",
+    "breathing-orb",
+    "bubble",
+    "meditation",
+    "mindfulness",
+    "wellness",
+    "relaxation",
+    "animation",
+    "box-breathing",
+    "guided-breathing",
+    "anxiety",
+    "typescript"
+  ],
+  "author": "ir3n",
+  "license": "ISC",
+  "peerDependencies": {
+    "react": ">=17",
+    "react-dom": ">=17"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.0"
+  }
+}

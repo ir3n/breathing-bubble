@@ -1,0 +1,42 @@
+.breathing-bubble__float {
+  -webkit-animation: breathing-bubble-float 6s ease-in-out infinite;
+          animation: breathing-bubble-float 6s ease-in-out infinite;
+}
+.breathing-bubble__rotate {
+  -webkit-animation: breathing-bubble-rotate 20s linear infinite;
+          animation: breathing-bubble-rotate 20s linear infinite;
+}
+@-webkit-keyframes breathing-bubble-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes breathing-bubble-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@-webkit-keyframes breathing-bubble-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes breathing-bubble-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
