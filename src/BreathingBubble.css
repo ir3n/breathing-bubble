@@ -3,16 +3,22 @@
   flex-direction: column;
   gap: 1rem;
 }
+.breathing-bubble__title {
+  margin: 0;
+  text-align: center;
+}
 .breathing-bubble__stage {
   position: relative;
   display: flex;
   justify-content: center;
 }
 .breathing-bubble__shape-wrapper {
-  width: 15rem;
-  height: 15rem;
+  width: 100%;
+  aspect-ratio: 1;
 }
 .breathing-bubble__shape-inner {
+  /* Room for the float animation (translateY(-4%)) so the bubble never leaves its box */
+  padding: 4%;
   transition: transform 1000ms;
 }
 .breathing-bubble__counter {

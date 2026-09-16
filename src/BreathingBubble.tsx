@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { BubbleShape } from "./BubbleShape";
 import { BreathingProgress } from "./BreathingProgress";
 import "./BreathingBubble.css";
@@ -18,6 +18,9 @@ export type BreathingBubbleProps = {
   showProgress?: boolean;
   progressColor?: string;
   onProcessEnd: () => void;
+  size?: number | string;
+  className?: string;
+  style?: CSSProperties;
 };
 
 export function BreathingBubble(props: BreathingBubbleProps) {
@@ -36,6 +39,9 @@ export function BreathingBubble(props: BreathingBubbleProps) {
     showProgress = true,
     progressColor = "#00bbff",
     onProcessEnd,
+    size,
+    className,
+    style,
   } = props;
 
   const [inCountdown, setInCountdown] = useState(countdown ? true : false);
@@ -117,10 +123,16 @@ export function BreathingBubble(props: BreathingBubbleProps) {
   }
 
   return (
-    <div className="breathing-bubble">
-      <h3>{inCountdown ? "Ready..." : currentStep.text}</h3>
+    <div
+      className={
+        className ? `breathing-bubble ${className}` : "breathing-bubble"
+      }
+      style={{ width: size, ...style }}
+    >
+      <p className="breathing-bubble__title">
+        {inCountdown ? "Ready..." : currentStep.text}
+      </p>
       <div className="breathing-bubble__stage">
-        {/* TODO: The width is given in this class. Maybe make it so that it takes the full width of the container */}
         <div className="breathing-bubble__shape-wrapper">
           <div
             className="breathing-bubble__shape-inner"
