@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import BubbleShape from "./BubbleShape";
+import BreathingProgress from "./BreathingProgress";
 import "./BreathingBubble.css";
 
 export type BreathingBubbleProps = {
@@ -21,7 +22,7 @@ export type BreathingBubbleProps = {
 
 export default function BreathingBubble(props: BreathingBubbleProps) {
   const {
-    bubbleColor = "#FFFFFF",
+    bubbleColor = "#00bbff",
     float = true,
     rotate = true,
     countdown = true,
@@ -33,8 +34,7 @@ export default function BreathingBubble(props: BreathingBubbleProps) {
     exhaleText = "Breathe out...",
     repeats,
     showProgress = true,
-    // TODO: use this as the bg of the dots
-    progressColor = "#FFFFFF",
+    progressColor = "#00bbff",
     onProcessEnd,
   } = props;
 
@@ -133,23 +133,12 @@ export default function BreathingBubble(props: BreathingBubbleProps) {
           {secondsCounter && secondsCounter}
         </div>
       </div>
-      {/* TODO: separate this to the progress component */}
       {showProgress && !inCountdown && (
-        <div className="breathing-bubble__progress">
-          {Array.from({ length: repeats }, (_, index) => {
-            const isDone = index < currentRepeat;
-            return (
-              <div
-                key={index}
-                className={`breathing-bubble__progress-dot ${
-                  isDone
-                    ? "breathing-bubble__progress-dot--active"
-                    : "breathing-bubble__progress-dot--inactive"
-                }`}
-              />
-            );
-          })}
-        </div>
+        <BreathingProgress
+          repeats={repeats}
+          currentRepeat={currentRepeat}
+          color={progressColor}
+        />
       )}
     </div>
   );

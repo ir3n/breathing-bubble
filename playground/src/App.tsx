@@ -4,7 +4,6 @@ export default function App() {
   return (
     <div style={{ padding: "2rem" }}>
       <BreathingBubble
-        bubbleColor="#000000"
         inhale={4}
         hold={4}
         exhale={4}

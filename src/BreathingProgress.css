@@ -1,0 +1,16 @@
+.breathing-bubble__progress {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0 auto;
+}
+.breathing-bubble__progress-dot {
+  height: 0.25rem;
+  width: 0.75rem;
+  border-radius: 2px;
+}
+.breathing-bubble__progress-dot--active {
+  opacity: 1;
+}
+.breathing-bubble__progress-dot--inactive {
+  opacity: 0.5;
+}
