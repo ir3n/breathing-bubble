@@ -2,29 +2,6 @@
   "name": "@ir3n/react-breathing-bubble",
   "version": "1.0.0",
   "description": "Animated breathing bubble/orb React component for guided breathing exercises with customizable inhale/hold/exhale timing, for meditation and mindfulness apps.",
-  "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    },
-    "./styles.css": "./dist/index.css"
-  },
-  "files": [
-    "dist"
-  ],
-  "sideEffects": [
-    "*.css"
-  ],
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "react",
     "react-component",
@@ -43,8 +20,45 @@
     "anxiety",
     "typescript"
   ],
+  "homepage": "https://github.com/ir3n/breathing-bubble#readme",
+  "bugs": {
+    "url": "https://github.com/ir3n/breathing-bubble/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ir3n/breathing-bubble.git"
+  },
+  "license": "MIT",
   "author": "ir3n",
-  "license": "ISC",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./styles.css": "./dist/index.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm run build"
+  },
   "peerDependencies": {
     "react": ">=18",
     "react-dom": ">=18"

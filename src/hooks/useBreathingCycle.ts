@@ -14,7 +14,7 @@ type BreathingCycleOptions = {
 };
 
 function toWholeNumber(value: number) {
-  return Math.max(0, Math.round(value));
+  return Math.max(0, Math.round(value)) || 0;
 }
 
 export function useBreathingCycle(options: BreathingCycleOptions) {
@@ -46,10 +46,10 @@ export function useBreathingCycle(options: BreathingCycleOptions) {
     if (isComplete) onCompleteRef.current?.();
   }, [isComplete]);
 
-  if (seconds < countdownLength) {
+  if (seconds < countdownLength || totalLength === countdownLength) {
     return {
       phase: "countdown" as BreathingPhase,
-      counter: countdownLength - seconds,
+      counter: Math.max(0, countdownLength - seconds),
       progress: 0,
       currentRepeat: 1,
       totalRepeats: repeats,

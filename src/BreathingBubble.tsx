@@ -96,18 +96,16 @@ export function BreathingBubble(props: BreathingBubbleProps) {
           </div>
         </div>
         <div className="breathing-bubble__counter" aria-hidden="true">
-          {counter}
+          {counter > 0 && counter}
         </div>
       </div>
-      {showProgress &&
-        phase !== "countdown" &&
-        totalRepeats !== Infinity && (
-          <BreathingProgress
-            repeats={totalRepeats}
-            currentRepeat={currentRepeat}
-            color={progressColor}
-          />
-        )}
+      {showProgress && phase !== "countdown" && totalRepeats !== Infinity && (
+        <BreathingProgress
+          repeats={totalRepeats}
+          currentRepeat={currentRepeat}
+          color={progressColor}
+        />
+      )}
     </div>
   );
 }

@@ -1,25 +1,13 @@
 .breathing-bubble__float {
-  -webkit-animation: breathing-bubble-float 6s ease-in-out infinite;
-          animation: breathing-bubble-float 6s ease-in-out infinite;
+  animation: breathing-bubble-float 6s ease-in-out infinite;
 }
 .breathing-bubble__rotate {
-  -webkit-animation: breathing-bubble-rotate 20s linear infinite;
-          animation: breathing-bubble-rotate 20s linear infinite;
+  animation: breathing-bubble-rotate 20s linear infinite;
 }
 @media (prefers-reduced-motion: reduce) {
   .breathing-bubble__float,
   .breathing-bubble__rotate {
-    -webkit-animation: none;
-            animation: none;
-  }
-}
-@-webkit-keyframes breathing-bubble-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-4%);
+    animation: none;
   }
 }
 @keyframes breathing-bubble-float {
@@ -29,14 +17,6 @@
   }
   50% {
     transform: translateY(-4%);
-  }
-}
-@-webkit-keyframes breathing-bubble-rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
   }
 }
 @keyframes breathing-bubble-rotate {

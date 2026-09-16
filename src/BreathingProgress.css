@@ -8,9 +8,6 @@
   width: 0.75rem;
   border-radius: 2px;
 }
-.breathing-bubble__progress-dot--active {
-  opacity: 1;
-}
 .breathing-bubble__progress-dot--inactive {
   opacity: 0.5;
 }
