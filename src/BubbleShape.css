@@ -6,6 +6,13 @@
   -webkit-animation: breathing-bubble-rotate 20s linear infinite;
           animation: breathing-bubble-rotate 20s linear infinite;
 }
+@media (prefers-reduced-motion: reduce) {
+  .breathing-bubble__float,
+  .breathing-bubble__rotate {
+    -webkit-animation: none;
+            animation: none;
+  }
+}
 @-webkit-keyframes breathing-bubble-float {
   0%,
   100% {

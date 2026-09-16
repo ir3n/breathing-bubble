@@ -8,8 +8,8 @@ export default function App() {
         inhale={4}
         hold={4}
         exhale={4}
-        repeats={5}
-        onProcessEnd={() => console.log("done")}
+        repeats={3}
+        onComplete={() => console.log("done")}
       />
     </div>
   );

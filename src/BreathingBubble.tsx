@@ -1,126 +1,80 @@
-import { useEffect, useState, type CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import { BubbleShape } from "./BubbleShape";
 import { BreathingProgress } from "./BreathingProgress";
+import {
+  useBreathingCycle,
+  type BreathingPhase,
+} from "./hooks/useBreathingCycle";
 import "./BreathingBubble.css";
 
 export type BreathingBubbleProps = {
-  bubbleColor?: string;
+  inhale?: number;
+  hold?: number;
+  exhale?: number;
+  repeats?: number;
   countdown?: boolean;
-  float?: boolean;
-  rotate?: boolean;
-  inhale: number;
-  hold: number;
-  exhale: number;
+  countdownText?: string;
   inhaleText?: string;
   holdText?: string;
   exhaleText?: string;
-  repeats: number;
+  bubbleColor?: string;
+  float?: boolean;
+  rotate?: boolean;
   showProgress?: boolean;
   progressColor?: string;
-  onProcessEnd: () => void;
+  onComplete?: () => void;
   size?: number | string;
   className?: string;
   style?: CSSProperties;
 };
 
+const SHRINK_AMOUNT = 0.2;
+
+function getScale(phase: BreathingPhase, progress: number) {
+  if (phase === "inhale") return 1 - SHRINK_AMOUNT * (1 - progress);
+  if (phase === "exhale") return 1 - SHRINK_AMOUNT * progress;
+  if (phase === "hold") return 1;
+  return 1 - SHRINK_AMOUNT;
+}
+
 export function BreathingBubble(props: BreathingBubbleProps) {
   const {
-    bubbleColor = "#00bbff",
-    float = true,
-    rotate = true,
+    inhale = 4,
+    hold = 4,
+    exhale = 4,
+    repeats = 3,
     countdown = true,
-    inhale,
-    hold,
-    exhale,
+    countdownText = "Ready...",
     inhaleText = "Breathe in...",
     holdText = "Hold...",
     exhaleText = "Breathe out...",
-    repeats,
+    bubbleColor = "#00bbff",
+    float = true,
+    rotate = true,
     showProgress = true,
     progressColor = "#00bbff",
-    onProcessEnd,
+    onComplete,
     size,
     className,
     style,
   } = props;
 
-  const [inCountdown, setInCountdown] = useState(countdown ? true : false);
-  const [secondsCounter, setSecondsCounter] = useState(countdown ? 3 : 1);
-  const [currentRepeat, setCurrentRepeat] = useState(1);
-  const [currentStepId, setCurrentStepId] = useState(0);
+  const { phase, counter, progress, currentRepeat, totalRepeats } =
+    useBreathingCycle({
+      countdown,
+      inhale,
+      hold,
+      exhale,
+      repeats,
+      onComplete,
+    });
 
-  const BreathingSteps = [
-    { type: "inhale", duration: inhale, text: inhaleText },
-    { type: "hold", duration: hold, text: holdText },
-    { type: "exhale", duration: exhale, text: exhaleText },
-  ];
-
-  const currentStep = BreathingSteps[currentStepId];
-
-  // TODO: refactor, separate concerns
-
-  useEffect(() => {
-    if (!countdown || !inCountdown) return;
-    const countdownInterval = setInterval(() => {
-      if (secondsCounter > 1) {
-        setSecondsCounter((counter) => counter - 1);
-      } else {
-        setInCountdown(false);
-        setSecondsCounter(1);
-        clearInterval(countdownInterval);
-      }
-    }, 1000);
-    return () => clearInterval(countdownInterval);
-  }, [countdown, secondsCounter, inCountdown]);
-
-  useEffect(() => {
-    if (inCountdown) return;
-    const counter = setInterval(() => {
-      if (secondsCounter < currentStep.duration) {
-        setSecondsCounter((counter) => counter + 1);
-      } else {
-        if (currentStepId < BreathingSteps.length - 1) {
-          setCurrentStepId((stepId) => stepId + 1);
-          setSecondsCounter(1);
-        } else {
-          if (currentRepeat < repeats) {
-            setCurrentRepeat((repeat) => repeat + 1);
-            setCurrentStepId(0);
-            setSecondsCounter(1);
-          } else {
-            onProcessEnd();
-            clearInterval(counter);
-          }
-        }
-      }
-    }, 1000);
-    return () => clearInterval(counter);
-  }, [
-    currentRepeat,
-    currentStep.duration,
-    currentStepId,
-    inCountdown,
-    secondsCounter,
-    repeats,
-    BreathingSteps.length,
-    onProcessEnd,
-  ]);
-
-  let scale = 1 - inhale * 0.05;
-
-  if (!inCountdown) {
-    switch (currentStep.type) {
-      case "inhale":
-        scale = scale + secondsCounter * 0.05;
-        break;
-      case "exhale":
-        scale = 1 - secondsCounter * 0.05;
-        break;
-      case "hold":
-        scale = 1;
-        break;
-    }
-  }
+  const text = {
+    countdown: countdownText,
+    inhale: inhaleText,
+    hold: holdText,
+    exhale: exhaleText,
+  }[phase];
 
   return (
     <div
@@ -129,29 +83,31 @@ export function BreathingBubble(props: BreathingBubbleProps) {
       }
       style={{ width: size, ...style }}
     >
-      <p className="breathing-bubble__title">
-        {inCountdown ? "Ready..." : currentStep.text}
+      <p className="breathing-bubble__title" aria-live="polite">
+        {text}
       </p>
       <div className="breathing-bubble__stage">
         <div className="breathing-bubble__shape-wrapper">
           <div
             className="breathing-bubble__shape-inner"
-            style={{ transform: `scale(${scale})` }}
+            style={{ transform: `scale(${getScale(phase, progress)})` }}
           >
             <BubbleShape color={bubbleColor} float={float} rotate={rotate} />
           </div>
         </div>
-        <div className="breathing-bubble__counter">
-          {secondsCounter && secondsCounter}
+        <div className="breathing-bubble__counter" aria-hidden="true">
+          {counter}
         </div>
       </div>
-      {showProgress && !inCountdown && (
-        <BreathingProgress
-          repeats={repeats}
-          currentRepeat={currentRepeat}
-          color={progressColor}
-        />
-      )}
+      {showProgress &&
+        phase !== "countdown" &&
+        totalRepeats !== Infinity && (
+          <BreathingProgress
+            repeats={totalRepeats}
+            currentRepeat={currentRepeat}
+            color={progressColor}
+          />
+        )}
     </div>
   );
 }
