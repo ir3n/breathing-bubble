@@ -1,4 +1,4 @@
-import BreathingBubble from "../../src/BreathingBubble";
+import { BreathingBubble } from "../../src/BreathingBubble";
 
 export default function App() {
   return (

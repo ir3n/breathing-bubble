@@ -6,7 +6,7 @@ export type BreathingProgressProps = {
   color: string;
 };
 
-export default function BreathingProgress(props: BreathingProgressProps) {
+export function BreathingProgress(props: BreathingProgressProps) {
   const { repeats, currentRepeat, color } = props;
 
   return (

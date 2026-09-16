@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import BubbleShape from "./BubbleShape";
-import BreathingProgress from "./BreathingProgress";
+import { BubbleShape } from "./BubbleShape";
+import { BreathingProgress } from "./BreathingProgress";
 import "./BreathingBubble.css";
 
 export type BreathingBubbleProps = {
@@ -20,7 +20,7 @@ export type BreathingBubbleProps = {
   onProcessEnd: () => void;
 };
 
-export default function BreathingBubble(props: BreathingBubbleProps) {
+export function BreathingBubble(props: BreathingBubbleProps) {
   const {
     bubbleColor = "#00bbff",
     float = true,

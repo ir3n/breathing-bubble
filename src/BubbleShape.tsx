@@ -6,7 +6,7 @@ export type BubbleShapeProps = {
   rotate: boolean;
 };
 
-export default function BubbleShape(props: BubbleShapeProps) {
+export function BubbleShape(props: BubbleShapeProps) {
   const { color, float, rotate } = props;
 
   return (
