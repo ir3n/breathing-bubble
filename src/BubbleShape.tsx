@@ -1,3 +1,4 @@
+import { useId } from "react";
 import "./BubbleShape.css";
 
 export type BubbleShapeProps = {
@@ -8,6 +9,9 @@ export type BubbleShapeProps = {
 
 export function BubbleShape(props: BubbleShapeProps) {
   const { color, float, rotate } = props;
+  // Unique per instance so multiple bubbles don't share one filter.
+  // useId returns chars like ":" that aren't safe inside url(#...), so strip them.
+  const filterId = `bubble-rim-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
 
   return (
     <div className={float ? "breathing-bubble__float" : undefined}>
@@ -21,7 +25,7 @@ export function BubbleShape(props: BubbleShapeProps) {
       >
         <defs>
           <filter
-            id="bubble-rim"
+            id={filterId}
             x="0"
             y="0"
             width="1080"
@@ -42,8 +46,8 @@ export function BubbleShape(props: BubbleShapeProps) {
               operator="out"
               result="rimAlpha"
             />
-            <feFlood floodColor={color} floodOpacity="1" result={color} />
-            <feComposite in={color} in2="rimAlpha" operator="in" />
+            <feFlood floodColor={color} floodOpacity="1" result="flood" />
+            <feComposite in="flood" in2="rimAlpha" operator="in" />
           </filter>
         </defs>
         <circle
@@ -51,7 +55,7 @@ export function BubbleShape(props: BubbleShapeProps) {
           cy="540"
           r="540"
           fill={color}
-          filter="url(#bubble-rim)"
+          filter={`url(#${filterId})`}
         />
       </svg>
     </div>
