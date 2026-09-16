@@ -22,6 +22,8 @@ export type BreathingBubbleProps = {
   rotate?: boolean;
   showProgress?: boolean;
   progressColor?: string;
+  progressLabel?: (currentRepeat: number, totalRepeats: number) => string;
+  paused?: boolean;
   onComplete?: () => void;
   size?: number | string;
   className?: string;
@@ -37,6 +39,10 @@ function getScale(phase: BreathingPhase, progress: number) {
   return 1 - SHRINK_AMOUNT;
 }
 
+function defaultProgressLabel(currentRepeat: number, totalRepeats: number) {
+  return `Cycle ${currentRepeat} of ${totalRepeats}`;
+}
+
 export function BreathingBubble(props: BreathingBubbleProps) {
   const {
     inhale = 4,
@@ -48,11 +54,13 @@ export function BreathingBubble(props: BreathingBubbleProps) {
     inhaleText = "Breathe in...",
     holdText = "Hold...",
     exhaleText = "Breathe out...",
-    bubbleColor = "#00bbff",
+    bubbleColor = "#0077b6",
     float = true,
     rotate = true,
     showProgress = true,
-    progressColor = "#00bbff",
+    progressColor = "#0077b6",
+    progressLabel = defaultProgressLabel,
+    paused = false,
     onComplete,
     size,
     className,
@@ -66,6 +74,7 @@ export function BreathingBubble(props: BreathingBubbleProps) {
       hold,
       exhale,
       repeats,
+      paused,
       onComplete,
     });
 
@@ -76,14 +85,21 @@ export function BreathingBubble(props: BreathingBubbleProps) {
     exhale: exhaleText,
   }[phase];
 
+  const rootClassName = [
+    "breathing-bubble",
+    paused && "breathing-bubble--paused",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <div
-      className={
-        className ? `breathing-bubble ${className}` : "breathing-bubble"
-      }
-      style={{ width: size, ...style }}
-    >
-      <p className="breathing-bubble__title" aria-live="polite">
+    <div className={rootClassName} style={{ width: size, ...style }}>
+      <p
+        className="breathing-bubble__title"
+        aria-live="polite"
+        aria-atomic="true"
+      >
         {text}
       </p>
       <div className="breathing-bubble__stage">
@@ -104,6 +120,7 @@ export function BreathingBubble(props: BreathingBubbleProps) {
           repeats={totalRepeats}
           currentRepeat={currentRepeat}
           color={progressColor}
+          label={progressLabel(currentRepeat, totalRepeats)}
         />
       )}
     </div>

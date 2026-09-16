@@ -4,6 +4,10 @@
 .breathing-bubble__rotate {
   animation: breathing-bubble-rotate 20s linear infinite;
 }
+.breathing-bubble--paused .breathing-bubble__float,
+.breathing-bubble--paused .breathing-bubble__rotate {
+  animation-play-state: paused;
+}
 @media (prefers-reduced-motion: reduce) {
   .breathing-bubble__float,
   .breathing-bubble__rotate {

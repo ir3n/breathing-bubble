@@ -10,6 +10,7 @@ type BreathingCycleOptions = {
   hold: number;
   exhale: number;
   repeats: number;
+  paused: boolean;
   onComplete?: () => void;
 };
 
@@ -18,7 +19,7 @@ function toWholeNumber(value: number) {
 }
 
 export function useBreathingCycle(options: BreathingCycleOptions) {
-  const { countdown, onComplete } = options;
+  const { countdown, paused, onComplete } = options;
   const inhale = toWholeNumber(options.inhale);
   const hold = toWholeNumber(options.hold);
   const exhale = toWholeNumber(options.exhale);
@@ -32,10 +33,10 @@ export function useBreathingCycle(options: BreathingCycleOptions) {
   const isComplete = seconds >= totalLength;
 
   useEffect(() => {
-    if (isComplete) return;
+    if (isComplete || paused) return;
     const interval = setInterval(() => setSeconds((s) => s + 1), 1000);
     return () => clearInterval(interval);
-  }, [isComplete]);
+  }, [isComplete, paused]);
 
   const onCompleteRef = useRef(onComplete);
   useEffect(() => {

@@ -4,13 +4,14 @@ export type BreathingProgressProps = {
   repeats: number;
   currentRepeat: number;
   color: string;
+  label: string;
 };
 
 export function BreathingProgress(props: BreathingProgressProps) {
-  const { repeats, currentRepeat, color } = props;
+  const { repeats, currentRepeat, color, label } = props;
 
   return (
-    <div className="breathing-bubble__progress" aria-hidden="true">
+    <div className="breathing-bubble__progress" role="img" aria-label={label}>
       {Array.from({ length: repeats }, (_, index) => {
         const isReached = index < currentRepeat;
         return (
