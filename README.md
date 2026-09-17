@@ -1,4 +1,4 @@
-# react-breathing-bubble
+# 🫧 react-breathing-bubble
 
 An animated breathing bubble React component for guided breathing exercises. The bubble grows as you breathe in, rests while you hold, and shrinks as you breathe out.
 
