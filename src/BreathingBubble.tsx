@@ -1,10 +1,11 @@
-import type { CSSProperties } from "react";
+import { useRef, type CSSProperties } from "react";
 import { BubbleShape } from "./BubbleShape";
 import { BreathingProgress } from "./BreathingProgress";
 import {
   useBreathingCycle,
   type BreathingPhase,
 } from "./hooks/useBreathingCycle";
+import { useStylesheetCheck } from "./hooks/useStylesheetCheck";
 import "./BreathingBubble.css";
 
 export type BreathingBubbleProps = {
@@ -67,6 +68,9 @@ export function BreathingBubble(props: BreathingBubbleProps) {
     style,
   } = props;
 
+  const rootRef = useRef<HTMLDivElement>(null);
+  useStylesheetCheck(rootRef);
+
   const { phase, counter, progress, currentRepeat, totalRepeats } =
     useBreathingCycle({
       countdown,
@@ -94,7 +98,7 @@ export function BreathingBubble(props: BreathingBubbleProps) {
     .join(" ");
 
   return (
-    <div className={rootClassName} style={{ width: size, ...style }}>
+    <div ref={rootRef} className={rootClassName} style={{ width: size, ...style }}>
       <p
         className="breathing-bubble__title"
         aria-live="polite"

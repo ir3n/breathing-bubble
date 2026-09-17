@@ -9,8 +9,20 @@
  */
 import { act, render, screen } from "@testing-library/react";
 import axe from "axe-core";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+  type MockInstance,
+} from "vitest";
 import { BreathingBubble } from "../src/BreathingBubble";
+import {
+  resetStylesheetCheck,
+  STYLESHEET_MARKER,
+} from "../src/hooks/useStylesheetCheck";
 
 function advance(seconds: number) {
   act(() => {
@@ -191,6 +203,50 @@ describe("BreathingBubble", () => {
       });
 
       expect(results.violations).toEqual([]);
+    });
+  });
+
+  describe("stylesheet warning", () => {
+    let warn: MockInstance<typeof console.warn>;
+
+    beforeEach(() => {
+      resetStylesheetCheck();
+      vi.stubEnv("NODE_ENV", "development");
+      warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      vi.unstubAllEnvs();
+      warn.mockRestore();
+      document.head.innerHTML = "";
+    });
+
+    it("warns once in development when the stylesheet isn't imported", () => {
+      render(<BreathingBubble />);
+      render(<BreathingBubble />);
+
+      expect(warn).toHaveBeenCalledTimes(1);
+      expect(warn.mock.calls[0][0]).toContain(
+        "@ir3n/react-breathing-bubble/styles.css",
+      );
+    });
+
+    it("doesn't warn when the stylesheet is imported", () => {
+      const style = document.createElement("style");
+      style.textContent = `.breathing-bubble { ${STYLESHEET_MARKER}: 1; }`;
+      document.head.appendChild(style);
+
+      render(<BreathingBubble />);
+
+      expect(warn).not.toHaveBeenCalled();
+    });
+
+    it.each(["production", "test"])("doesn't warn when NODE_ENV is %s", (env) => {
+      vi.stubEnv("NODE_ENV", env);
+
+      render(<BreathingBubble />);
+
+      expect(warn).not.toHaveBeenCalled();
     });
   });
 });
