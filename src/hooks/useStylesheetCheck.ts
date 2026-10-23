@@ -28,7 +28,7 @@ export function useStylesheetCheck(ref: RefObject<HTMLElement | null>) {
 
     console.warn(
       "[react-breathing-bubble] Styles not found. Import the stylesheet in your app's entry file or in the file where you use the component:\n\n" +
-        '  import "@ir3n/react-breathing-bubble/styles.css";\n\n' +
+        '  import "@eirini/react-breathing-bubble/styles.css";\n\n' +
         "Without it the bubble jumps between sizes instead of transitioning smoothly, and the counter and progress dots won't display correctly. 🫧",
     );
   }, [ref]);

@@ -5,7 +5,7 @@ An animated breathing bubble React component for guided breathing exercises. The
 ## Installation
 
 ```bash
-npm install @ir3n/react-breathing-bubble
+npm install @eirini/react-breathing-bubble
 ```
 
 Requires React 18 or newer.
@@ -14,7 +14,7 @@ Requires React 18 or newer.
 > **Import the stylesheet once in your app.** The styles are not included in the JavaScript, so without this the bubble jumps between sizes instead of growing and shrinking smoothly, and the counter and progress dots won't display correctly:
 >
 > ```tsx
-> import "@ir3n/react-breathing-bubble/styles.css";
+> import "@eirini/react-breathing-bubble/styles.css";
 > ```
 >
 > You can import it once in your app's entry file (e.g. `app/layout.tsx` in Next.js or `main.tsx` in Vite), or in the file where you use the component. If you override the styles, make sure your CSS loads after this stylesheet. In development, the component logs a console warning if the styles are missing.
@@ -22,8 +22,8 @@ Requires React 18 or newer.
 ## Usage
 
 ```tsx
-import { BreathingBubble } from "@ir3n/react-breathing-bubble";
-import "@ir3n/react-breathing-bubble/styles.css";
+import { BreathingBubble } from "@eirini/react-breathing-bubble";
+import "@eirini/react-breathing-bubble/styles.css";
 
 export default function App() {
   return (

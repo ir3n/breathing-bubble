@@ -222,7 +222,7 @@ describe("BreathingBubble", () => {
 
       expect(warn).toHaveBeenCalledTimes(1);
       expect(warn.mock.calls[0][0]).toContain(
-        "@ir3n/react-breathing-bubble/styles.css",
+        "@eirini/react-breathing-bubble/styles.css",
       );
     });
 
