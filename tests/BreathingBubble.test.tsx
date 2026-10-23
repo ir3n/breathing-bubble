@@ -1,12 +1,3 @@
-/*
- * Component tests: render <BreathingBubble /> in a simulated browser (jsdom)
- * and check what a user, or a screen reader, would get.
- *
- * - screen.getByText / getByRole find elements the way a person would, by
- *   visible text or accessible role, instead of by CSS class.
- * - The accessibility tests run axe-core, the same engine as browser a11y
- *   extensions, over the rendered HTML.
- */
 import { act, render, screen } from "@testing-library/react";
 import axe from "axe-core";
 import {
@@ -122,7 +113,11 @@ describe("BreathingBubble", () => {
     it("calls onComplete once at the end", () => {
       const onComplete = vi.fn();
       render(
-        <BreathingBubble countdown={false} repeats={1} onComplete={onComplete} />,
+        <BreathingBubble
+          countdown={false}
+          repeats={1}
+          onComplete={onComplete}
+        />,
       );
 
       advance(11);
@@ -241,12 +236,15 @@ describe("BreathingBubble", () => {
       expect(warn).not.toHaveBeenCalled();
     });
 
-    it.each(["production", "test"])("doesn't warn when NODE_ENV is %s", (env) => {
-      vi.stubEnv("NODE_ENV", env);
+    it.each(["production", "test"])(
+      "doesn't warn when NODE_ENV is %s",
+      (env) => {
+        vi.stubEnv("NODE_ENV", env);
 
-      render(<BreathingBubble />);
+        render(<BreathingBubble />);
 
-      expect(warn).not.toHaveBeenCalled();
-    });
+        expect(warn).not.toHaveBeenCalled();
+      },
+    );
   });
 });

@@ -8,13 +8,16 @@ let hasChecked = false;
 
 export function useStylesheetCheck(ref: RefObject<HTMLElement | null>) {
   useEffect(() => {
-    // Skipped in tests, where CSS is usually not loaded
-    if (
-      process.env.NODE_ENV === "production" ||
-      process.env.NODE_ENV === "test"
-    ) {
+    // Bundlers replace process.env.NODE_ENV as text. Without one (e.g. a CDN import)
+    // `process` doesn't exist and reading it throws, so skip the check.
+    let env: string | undefined;
+    try {
+      env = process.env.NODE_ENV;
+    } catch {
       return;
     }
+    // Skipped in tests, where CSS is usually not loaded
+    if (env === "production" || env === "test") return;
     if (hasChecked || !ref.current) return;
     hasChecked = true;
 
